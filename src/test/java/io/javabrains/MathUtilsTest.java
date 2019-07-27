@@ -66,7 +66,6 @@ class MathUtilsTest {
 	}
 
 	@Test
-	@DisplayName("Test disabled")
 	@Disabled
 	void testDisabled() {
 		fail("this test should be disabled");
