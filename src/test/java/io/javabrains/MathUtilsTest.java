@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.condition.EnabledOnOs;
@@ -41,6 +42,7 @@ class MathUtilsTest {
 	}
 
 	@Nested
+	@Tag("Math")
 	@DisplayName("Add method")
 	class AddMethod {
 		@Test
@@ -57,6 +59,7 @@ class MathUtilsTest {
 	}
 
 	@Test
+	@Tag("Math")
 	@DisplayName("multiply method")
 	void testMultiply() {
 		assertAll(() -> assertEquals(4, utils.multiply(2, 2)), () -> assertEquals(0, utils.multiply(2, 0)),
@@ -73,12 +76,14 @@ class MathUtilsTest {
 
 	
 	@RepeatedTest(5)
+	@Tag("Circle")
 	void testComputeCircleArea(RepetitionInfo repetitionInfo) {
 		int getCurrent=repetitionInfo.getCurrentRepetition();
 		assertEquals(314.1592653589793, utils.computeCircleArea(10.0), "should return right circle area at repetition step " + getCurrent);
 	}
 
 	@Test
+	@Tag("Math")
 	@EnabledOnOs(OS.WINDOWS)
 	void testDivide() {
 		boolean isServerUp = true;
