@@ -16,7 +16,9 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestReporter;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
@@ -25,6 +27,8 @@ import org.junit.jupiter.api.condition.OS;
 class MathUtilsTest {
 
 	MathUtils utils = null;
+	TestInfo testInfo;
+	TestReporter testReporter;
 
 	@BeforeAll
 	void beforeAllInit() {
@@ -32,8 +36,11 @@ class MathUtilsTest {
 	}
 
 	@BeforeEach
-	void init() {
+	void init(TestInfo testInfo, TestReporter testReporter) {
+		this.testInfo = testInfo;
+		this.testReporter = testReporter;
 		utils = new MathUtils();
+		testReporter.publishEntry("Running " + testInfo.getDisplayName() + " with tags " + testInfo.getTags());
 	}
 
 	@AfterEach
@@ -62,6 +69,8 @@ class MathUtilsTest {
 	@Tag("Math")
 	@DisplayName("multiply method")
 	void testMultiply() {
+		System.out.println("Running " + testInfo.getDisplayName() + " with tags " + testInfo.getTags());
+		testReporter.publishEntry("Running " + testInfo.getDisplayName() + " with tags " + testInfo.getTags());
 		assertAll(() -> assertEquals(4, utils.multiply(2, 2)), () -> assertEquals(0, utils.multiply(2, 0)),
 				() -> assertEquals(-2, utils.multiply(2, -1))
 
@@ -74,12 +83,12 @@ class MathUtilsTest {
 		fail("this test should be disabled");
 	}
 
-	
 	@RepeatedTest(5)
 	@Tag("Circle")
 	void testComputeCircleArea(RepetitionInfo repetitionInfo) {
-		int getCurrent=repetitionInfo.getCurrentRepetition();
-		assertEquals(314.1592653589793, utils.computeCircleArea(10.0), "should return right circle area at repetition step " + getCurrent);
+		int getCurrent = repetitionInfo.getCurrentRepetition();
+		assertEquals(314.1592653589793, utils.computeCircleArea(10.0),
+				"should return right circle area at repetition step " + getCurrent);
 	}
 
 	@Test
